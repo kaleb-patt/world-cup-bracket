@@ -69,15 +69,37 @@
 
     /* ── MATCH CARD (shared) ── */
     .match-card { background: var(--surface); border: 1px solid var(--border); border-radius: 5px; overflow: hidden; }
-    .match-team { padding: 5px 9px; font-size: 0.75rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); }
+    .match-team { padding: 5px 9px; font-size: 0.75rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); gap: 4px; }
     .match-team:last-child { border-bottom: none; }
     .match-team.winner { background: rgba(22,163,74,0.18); color: var(--accent-light); font-weight: 600; }
     .match-team.tbd { color: var(--text-muted); font-style: italic; }
     .match-label { font-size: 0.6rem; color: var(--text-muted); padding: 3px 9px; background: var(--surface2); border-bottom: 1px solid var(--border); line-height: 1.3; }
-
-    /* 3rd place match special styling */
     .match-card.third-place { border-color: var(--gold); opacity: 0.85; }
-    .match-card.third-place .match-label { color: var(--gold); }
+
+    /* ── PICK STATES (used in viewer bracket) ── */
+    .match-team.pick-correct { background: rgba(22,163,74,0.28); color: var(--accent-light); font-weight: 700; }
+    .match-team.pick-wrong   { background: rgba(220,38,38,0.18); color: #f87171; font-weight: 600; }
+    .match-team.pick-pending { background: rgba(59,130,246,0.15); color: #93c5fd; font-weight: 600; }
+    .match-team.actual-winner { background: rgba(22,163,74,0.1); color: var(--accent-light); }
+    .pick-icon { font-size: 0.68rem; flex-shrink: 0; }
+
+    /* ── VIEWER CHROME ── */
+    .viewer-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+    .viewer-chip { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 7px 16px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.12s; font-weight: 500; }
+    .viewer-chip:hover { border-color: var(--accent); color: var(--accent-light); }
+    .viewer-chip.active { background: rgba(22,163,74,0.2); border-color: var(--accent); color: var(--accent-light); font-weight: 700; }
+    .viewer-rounds { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
+    .viewer-round-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.04em; transition: all 0.12s; }
+    .viewer-round-btn:hover { border-color: var(--accent); color: var(--text); }
+    .viewer-round-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
+    .pick-legend { display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 14px; font-size: 0.78rem; }
+    .legend-dot { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 4px; }
+    .legend-correct .legend-dot { background: var(--accent-light); }
+    .legend-wrong   .legend-dot { background: #f87171; }
+    .legend-pending .legend-dot { background: #93c5fd; }
+    .legend-correct { color: var(--accent-light); }
+    .legend-wrong   { color: #f87171; }
+    .legend-pending { color: #93c5fd; }
 
     /* ── PICKS FORM ── */
     .picks-section { max-width: 680px; }
@@ -97,36 +119,6 @@
     .vs { color: var(--text-muted); font-size: 0.7rem; flex-shrink: 0; }
     .deadline-info { font-size: 0.76rem; color: var(--text-muted); margin-top: 6px; }
     .deadline-passed { color: #f87171; font-size: 0.85rem; font-weight: 600; }
-
-    /* ── PICKS VIEWER ── */
-    .viewer-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-    .viewer-chip { background: var(--surface2); border: 1px solid var(--border); color: var(--text); padding: 7px 16px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; transition: all 0.12s; font-weight: 500; }
-    .viewer-chip:hover { border-color: var(--accent); color: var(--accent-light); }
-    .viewer-chip.active { background: rgba(22,163,74,0.2); border-color: var(--accent); color: var(--accent-light); font-weight: 700; }
-    .viewer-rounds { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 16px; }
-    .viewer-round-btn { background: var(--surface2); border: 1px solid var(--border); color: var(--text-muted); padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; cursor: pointer; text-transform: uppercase; letter-spacing: 0.04em; transition: all 0.12s; }
-    .viewer-round-btn:hover { border-color: var(--accent); color: var(--text); }
-    .viewer-round-btn.active { background: var(--accent); border-color: var(--accent); color: white; }
-    .viewer-round-block { margin-bottom: 20px; }
-    .viewer-round-title { font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; padding-bottom: 6px; margin-bottom: 8px; border-bottom: 1px solid var(--border); }
-    .viewer-matches { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
-    .viewer-match-card { background: var(--surface); border: 1px solid var(--border); border-radius: 5px; overflow: hidden; }
-    .viewer-match-card.all-correct { border-color: rgba(22,163,74,0.5); }
-    .viewer-match-card.has-wrong   { border-color: rgba(220,38,38,0.4); }
-    .viewer-match-info { font-size: 0.58rem; color: var(--text-muted); padding: 3px 9px; background: var(--surface2); border-bottom: 1px solid var(--border); line-height: 1.35; }
-    .viewer-team { display: flex; justify-content: space-between; align-items: center; padding: 5px 9px; font-size: 0.76rem; border-bottom: 1px solid var(--border); }
-    .viewer-team:last-of-type { border-bottom: none; }
-    .viewer-team.tbd-team { color: var(--text-muted); font-style: italic; }
-    .viewer-team.st-pending  { background: rgba(59,130,246,0.1); color: #93c5fd; font-weight: 600; }
-    .viewer-team.st-correct  { background: rgba(22,163,74,0.25); color: var(--accent-light); font-weight: 700; }
-    .viewer-team.st-wrong    { background: rgba(220,38,38,0.12); color: #f87171; font-weight: 600; }
-    .viewer-team.st-winner   { background: rgba(22,163,74,0.14); color: var(--accent-light); }
-    .vi { font-size: 0.75rem; margin-left: 4px; flex-shrink: 0; }
-    .vi.correct { color: var(--accent-light); }
-    .vi.wrong   { color: #f87171; }
-    .vi.pending { font-size: 0.65rem; opacity: 0.7; }
-    .viewer-no-pick { font-size: 0.7rem; color: var(--text-muted); padding: 4px 9px; font-style: italic; }
-    .viewer-sub-note { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 12px; }
 
     /* ── SHARED ── */
     .btn { background: var(--accent); color: white; border: none; padding: 10px 20px; border-radius: 6px; font-size: 0.9rem; font-weight: 600; cursor: pointer; margin-top: 14px; }
@@ -173,16 +165,13 @@
 
   <div id="tab-bracket" style="display:none">
     <div class="section-header"><h2>Tournament Bracket</h2></div>
-    <!-- Desktop: horizontal flow -->
     <div class="bracket-outer">
       <div class="bracket-desktop" id="bracket-desktop"></div>
     </div>
-    <!-- Mobile: vertical stacked by round -->
     <div class="bracket-mobile" id="bracket-mobile"></div>
   </div>
 
   <div id="tab-viewer" style="display:none">
-    <div class="section-header"><h2>Browse Everyone's Picks</h2></div>
     <div id="viewer-content"><div class="loading">Loading…</div></div>
   </div>
 
@@ -228,41 +217,41 @@ const ROUND_DEADLINES = {
 };
 
 // ═══════════════════════════════════════════════════════════════
-//  MATCH INFO (venue + ET kickoff time)
+//  MATCH INFO
 // ═══════════════════════════════════════════════════════════════
 const MATCH_INFO = {
-  R32_M1:  { venue:'Gillette Stadium, Foxborough MA',           time:'Jun 29, 4:30 PM ET' },
-  R32_M2:  { venue:'MetLife Stadium, East Rutherford NJ',       time:'Jun 30, 5:00 PM ET' },
-  R32_M3:  { venue:'SoFi Stadium, Inglewood CA',                time:'Jun 28, 3:00 PM ET' },
-  R32_M4:  { venue:'Estadio BBVA, Guadalupe MX',                time:'Jun 29, 9:00 PM ET' },
-  R32_M5:  { venue:'BMO Field, Toronto CA',                     time:'Jul 2, 7:00 PM ET' },
-  R32_M6:  { venue:'SoFi Stadium, Inglewood CA',                time:'Jul 2, 3:00 PM ET' },
-  R32_M7:  { venue:"Levi's Stadium, Santa Clara CA",            time:'Jul 1, 4:00 PM ET' },
-  R32_M8:  { venue:'Lumen Field, Seattle WA',                   time:'Jul 1, 8:00 PM ET' },
-  R32_M9:  { venue:'NRG Stadium, Houston TX',                   time:'Jun 29, 1:00 PM ET' },
-  R32_M10: { venue:'AT&T Stadium, Arlington TX',                time:'Jun 30, 1:00 PM ET' },
-  R32_M11: { venue:'Estadio Azteca, Mexico City MX',            time:'Jun 30, 9:00 PM ET' },
-  R32_M12: { venue:'Mercedes-Benz Stadium, Atlanta GA',         time:'Jul 1, 12:00 PM ET' },
-  R32_M13: { venue:'Hard Rock Stadium, Miami Gardens FL',       time:'Jul 3, 6:00 PM ET' },
-  R32_M14: { venue:'AT&T Stadium, Arlington TX',                time:'Jul 3, 2:00 PM ET' },
-  R32_M15: { venue:'BC Place, Vancouver CA',                    time:'Jul 2, 11:00 PM ET' },
-  R32_M16: { venue:'Arrowhead Stadium, Kansas City MO',         time:'Jul 3, 9:30 PM ET' },
-  R16_M1:  { venue:'Lincoln Financial Field, Philadelphia PA',  time:'Jul 4, 5:00 PM ET' },
-  R16_M2:  { venue:'NRG Stadium, Houston TX',                   time:'Jul 4, 1:00 PM ET' },
-  R16_M3:  { venue:'AT&T Stadium, Dallas TX',                   time:'Jul 6, 3:00 PM ET' },
-  R16_M4:  { venue:'Lumen Field, Seattle WA',                   time:'Jul 6, 8:00 PM ET' },
-  R16_M5:  { venue:'MetLife Stadium, East Rutherford NJ',       time:'Jul 5, 4:00 PM ET' },
-  R16_M6:  { venue:'Estadio Azteca, Mexico City MX',            time:'Jul 5, 8:00 PM ET' },
-  R16_M7:  { venue:'BC Place, Vancouver CA',                    time:'Jul 7, 4:00 PM ET' },
-  R16_M8:  { venue:'Mercedes-Benz Stadium, Atlanta GA',         time:'Jul 6, 12:00 PM ET' },
-  QF_M1:   { venue:'Gillette Stadium, Foxborough MA',           time:'Jul 9, 4:00 PM ET' },
-  QF_M2:   { venue:'SoFi Stadium, Los Angeles CA',              time:'Jul 10, 3:00 PM ET' },
-  QF_M3:   { venue:'Hard Rock Stadium, Miami Gardens FL',       time:'Jul 11, 5:00 PM ET' },
-  QF_M4:   { venue:'Arrowhead Stadium, Kansas City MO',         time:'Jul 11, 9:00 PM ET' },
-  SF_M1:   { venue:'AT&T Stadium, Dallas TX',                   time:'Jul 14, 3:00 PM ET' },
-  SF_M2:   { venue:'Mercedes-Benz Stadium, Atlanta GA',         time:'Jul 15, 3:00 PM ET' },
-  '3P_M1': { venue:'Hard Rock Stadium, Miami Gardens FL',       time:'Jul 18, 5:00 PM ET' },
-  F_M1:    { venue:'MetLife Stadium, East Rutherford NJ',       time:'Jul 19, 3:00 PM ET' },
+  R32_M1:  { venue:'Gillette Stadium, Foxborough MA',          time:'Jun 29, 4:30 PM ET' },
+  R32_M2:  { venue:'MetLife Stadium, East Rutherford NJ',      time:'Jun 30, 5:00 PM ET' },
+  R32_M3:  { venue:'SoFi Stadium, Inglewood CA',               time:'Jun 28, 3:00 PM ET' },
+  R32_M4:  { venue:'Estadio BBVA, Guadalupe MX',               time:'Jun 29, 9:00 PM ET' },
+  R32_M5:  { venue:'BMO Field, Toronto CA',                    time:'Jul 2, 7:00 PM ET'  },
+  R32_M6:  { venue:'SoFi Stadium, Inglewood CA',               time:'Jul 2, 3:00 PM ET'  },
+  R32_M7:  { venue:"Levi's Stadium, Santa Clara CA",           time:'Jul 1, 4:00 PM ET'  },
+  R32_M8:  { venue:'Lumen Field, Seattle WA',                  time:'Jul 1, 8:00 PM ET'  },
+  R32_M9:  { venue:'NRG Stadium, Houston TX',                  time:'Jun 29, 1:00 PM ET' },
+  R32_M10: { venue:'AT&T Stadium, Arlington TX',               time:'Jun 30, 1:00 PM ET' },
+  R32_M11: { venue:'Estadio Azteca, Mexico City MX',           time:'Jun 30, 9:00 PM ET' },
+  R32_M12: { venue:'Mercedes-Benz Stadium, Atlanta GA',        time:'Jul 1, 12:00 PM ET' },
+  R32_M13: { venue:'Hard Rock Stadium, Miami Gardens FL',      time:'Jul 3, 6:00 PM ET'  },
+  R32_M14: { venue:'AT&T Stadium, Arlington TX',               time:'Jul 3, 2:00 PM ET'  },
+  R32_M15: { venue:'BC Place, Vancouver CA',                   time:'Jul 2, 11:00 PM ET' },
+  R32_M16: { venue:'Arrowhead Stadium, Kansas City MO',        time:'Jul 3, 9:30 PM ET'  },
+  R16_M1:  { venue:'Lincoln Financial Field, Philadelphia PA', time:'Jul 4, 5:00 PM ET'  },
+  R16_M2:  { venue:'NRG Stadium, Houston TX',                  time:'Jul 4, 1:00 PM ET'  },
+  R16_M3:  { venue:'AT&T Stadium, Dallas TX',                  time:'Jul 6, 3:00 PM ET'  },
+  R16_M4:  { venue:'Lumen Field, Seattle WA',                  time:'Jul 6, 8:00 PM ET'  },
+  R16_M5:  { venue:'MetLife Stadium, East Rutherford NJ',      time:'Jul 5, 4:00 PM ET'  },
+  R16_M6:  { venue:'Estadio Azteca, Mexico City MX',           time:'Jul 5, 8:00 PM ET'  },
+  R16_M7:  { venue:'BC Place, Vancouver CA',                   time:'Jul 7, 4:00 PM ET'  },
+  R16_M8:  { venue:'Mercedes-Benz Stadium, Atlanta GA',        time:'Jul 6, 12:00 PM ET' },
+  QF_M1:   { venue:'Gillette Stadium, Foxborough MA',          time:'Jul 9, 4:00 PM ET'  },
+  QF_M2:   { venue:'SoFi Stadium, Los Angeles CA',             time:'Jul 10, 3:00 PM ET' },
+  QF_M3:   { venue:'Hard Rock Stadium, Miami Gardens FL',      time:'Jul 11, 5:00 PM ET' },
+  QF_M4:   { venue:'Arrowhead Stadium, Kansas City MO',        time:'Jul 11, 9:00 PM ET' },
+  SF_M1:   { venue:'AT&T Stadium, Dallas TX',                  time:'Jul 14, 3:00 PM ET' },
+  SF_M2:   { venue:'Mercedes-Benz Stadium, Atlanta GA',        time:'Jul 15, 3:00 PM ET' },
+  '3P_M1': { venue:'Hard Rock Stadium, Miami Gardens FL',      time:'Jul 18, 5:00 PM ET' },
+  F_M1:    { venue:'MetLife Stadium, East Rutherford NJ',      time:'Jul 19, 3:00 PM ET' },
 };
 
 // ═══════════════════════════════════════════════════════════════
@@ -415,7 +404,6 @@ function matchCardHtml(m, extraClass = '') {
 }
 
 function renderBracket() {
-  // ── Desktop ──
   let desktopHtml = '';
   BRACKET_ROUNDS.forEach(round => {
     const rMatches = matches.filter(m => m.round === round).sort((a,b) => a.match_number - b.match_number);
@@ -426,7 +414,6 @@ function renderBracket() {
   });
   document.getElementById('bracket-desktop').innerHTML = desktopHtml;
 
-  // ── Mobile ──
   let mobileHtml = '';
   BRACKET_ROUNDS.forEach(round => {
     const rMatches = matches.filter(m => m.round === round).sort((a,b) => a.match_number - b.match_number);
@@ -443,6 +430,70 @@ function renderBracket() {
 // ═══════════════════════════════════════════════════════════════
 //  PICKS VIEWER
 // ═══════════════════════════════════════════════════════════════
+
+// Resolve teams for a match using someone's picks to propagate winners.
+// Uses picks over actual winners so we see THEIR bracket path, even where wrong.
+function resolveViewerTeams(matchId, picks) {
+  const mm = {};
+  matches.forEach(m => mm[m.id] = m);
+  const m = mm[matchId];
+  if (!m) return ['TBD','TBD'];
+  // R32 teams are always set directly in the DB
+  if (m.team1 && m.team2) return [m.team1, m.team2];
+  const feeders = FED_BY[matchId];
+  if (!feeders) return ['TBD','TBD'];
+  // Use pick for feeder → fallback to actual winner → TBD
+  const t1 = picks[feeders[0]] || mm[feeders[0]]?.winner || 'TBD';
+  const t2 = picks[feeders[1]] || mm[feeders[1]]?.winner || 'TBD';
+  return [t1, t2];
+}
+
+// Render a match card showing a person's pick with correct/wrong/pending state
+function viewerMatchCardHtml(m, picks) {
+  const [t1, t2] = resolveViewerTeams(m.id, picks);
+  const pick   = picks[m.id];
+  const winner = m.winner;
+  const info   = MATCH_INFO[m.id];
+  const is3P   = m.round === '3P';
+
+  const teamRow = (team) => {
+    if (team === 'TBD') {
+      return `<div class="match-team tbd"><span>TBD</span></div>`;
+    }
+    const isPick  = pick === team;
+    const isWin   = winner === team;
+
+    let cls = 'match-team';
+    let icon = '';
+
+    if (isPick) {
+      if (winner) {
+        cls += isWin ? ' pick-correct' : ' pick-wrong';
+        icon = isWin
+          ? `<span class="pick-icon" style="color:var(--accent-light)">✓</span>`
+          : `<span class="pick-icon" style="color:#f87171">✗</span>`;
+      } else {
+        cls += ' pick-pending';
+        icon = `<span class="pick-icon" style="opacity:0.7;font-size:0.6rem">⏳</span>`;
+      }
+    } else if (isWin) {
+      // Actual winner but not their pick — subtle green, no icon
+      cls += ' actual-winner';
+    }
+
+    return `<div class="${cls}"><span>${team}</span>${icon}</div>`;
+  };
+
+  const infoHtml = info ? `<div class="match-label">${info.time} · ${info.venue}</div>` : '';
+
+  return `<div class="match-card ${is3P ? 'third-place' : ''}">
+    ${is3P ? '<div class="match-label" style="color:var(--gold)">3rd Place</div>' : ''}
+    ${infoHtml}
+    ${teamRow(t1)}
+    ${teamRow(t2)}
+  </div>`;
+}
+
 function selectViewerName(name) {
   viewerName = name;
   viewerRound = '';
@@ -457,8 +508,16 @@ function selectViewerRound(round) {
 function renderViewer() {
   const el = document.getElementById('viewer-content');
 
+  // Section header + refresh
+  let html = `<div class="section-header">
+    <h2>Browse Everyone's Picks</h2>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn-sm" onclick="refreshData()">↻ Refresh</button>
+    </div>
+  </div>`;
+
   // Participant chips
-  let html = '<div class="viewer-chips">';
+  html += '<div class="viewer-chips">';
   participants.forEach(p => {
     const safe = p.name.replace(/'/g, "\\'");
     html += `<button class="viewer-chip ${viewerName===p.name?'active':''}" onclick="selectViewerName('${safe}')">${p.name}</button>`;
@@ -475,21 +534,21 @@ function renderViewer() {
   const submittedRounds = ROUND_ORDER.filter(r => personSubs.find(s => s.submission_round === r));
 
   if (!submittedRounds.length) {
-    html += `<div class="alert alert-warn" style="margin-top:4px">${viewerName} hasn't submitted any picks yet.</div>`;
+    html += `<div class="alert alert-warn">${viewerName} hasn't submitted any picks yet.</div>`;
     el.innerHTML = html;
     return;
   }
 
-  // Auto-select first round if none or invalid
+  // Auto-select first round if unset or invalid
   if (!viewerRound || !submittedRounds.includes(viewerRound)) {
     viewerRound = submittedRounds[0];
   }
 
-  // Round pills — one per submission round the person has
+  // Round selector pills
   html += '<div class="viewer-rounds">';
   submittedRounds.forEach(r => {
     const safe = r.replace(/'/g, "\\'");
-    html += `<button class="viewer-round-btn ${viewerRound===r?'active':''}" onclick="selectViewerRound('${safe}')">${ROUND_NAMES[r]} bracket</button>`;
+    html += `<button class="viewer-round-btn ${viewerRound===r?'active':''}" onclick="selectViewerRound('${safe}')">${ROUND_NAMES[r]} Bracket</button>`;
   });
   html += '</div>';
 
@@ -500,81 +559,40 @@ function renderViewer() {
     return;
   }
 
-  // Sub note
-  const subDate = sub.submitted_at ? new Date(sub.submitted_at).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}) : '';
-  html += `<p class="viewer-sub-note">Submitted ${subDate} — picks for ${ROUND_NAMES[viewerRound]} through the Final</p>`;
-
-  // Show all rounds contained in this submission
+  const picks = sub.picks;
+  // Show all rounds included in this submission
   const roundsInSub = ROUND_ORDER.slice(ROUND_ORDER.indexOf(viewerRound));
 
+  // Legend
+  html += `<div class="pick-legend">
+    <span class="legend-correct"><span class="legend-dot"></span>Correct pick</span>
+    <span class="legend-wrong"><span class="legend-dot"></span>Wrong pick</span>
+    <span class="legend-pending"><span class="legend-dot"></span>Pending result</span>
+  </div>`;
+
+  // ── Desktop bracket ──
+  html += '<div class="bracket-outer"><div class="bracket-desktop">';
   roundsInSub.forEach(round => {
     const rMatches = matches.filter(m => m.round === round).sort((a,b) => a.match_number - b.match_number);
     if (!rMatches.length) return;
-
-    html += `<div class="viewer-round-block"><div class="viewer-round-title">${ROUND_NAMES[round]}</div><div class="viewer-matches">`;
-
-    rMatches.forEach(m => {
-      const [t1, t2] = bracketTeams(m.id);
-      const pick   = sub.picks[m.id];
-      const winner = m.winner;
-      const info   = MATCH_INFO[m.id];
-
-      // Card border state: correct / has-wrong / neutral
-      let cardState = '';
-      if (pick && winner) cardState = pick === winner ? 'all-correct' : 'has-wrong';
-
-      html += `<div class="viewer-match-card ${cardState}">`;
-      if (info) html += `<div class="viewer-match-info">${info.time} · ${info.venue}</div>`;
-
-      if (!pick) {
-        // No pick recorded for this match
-        const noPickRow = (team) => {
-          const isTBD = team === 'TBD';
-          const isW   = winner === team;
-          let cls = 'viewer-team';
-          if (isTBD) cls += ' tbd-team';
-          if (isW)   cls += ' st-winner';
-          return `<div class="${cls}"><span>${team}</span>${isW ? '<span class="vi correct">✓</span>' : ''}</div>`;
-        };
-        html += noPickRow(t1) + noPickRow(t2);
-        html += `<div class="viewer-no-pick">No pick recorded</div>`;
-      } else {
-        [t1, t2].forEach(team => {
-          const isPick  = pick === team;
-          const isWin   = !!winner && winner === team;
-          const isTBD   = team === 'TBD';
-
-          let cls = 'viewer-team';
-          if (isTBD) cls += ' tbd-team';
-
-          let indicator = '';
-          if (!isTBD && isPick) {
-            if (winner) {
-              if (isWin) {
-                cls += ' st-correct';
-                indicator = '<span class="vi correct">✓</span>';
-              } else {
-                cls += ' st-wrong';
-                indicator = '<span class="vi wrong">✗</span>';
-              }
-            } else {
-              cls += ' st-pending';
-              indicator = '<span class="vi pending">⏳</span>';
-            }
-          } else if (isWin && !isPick) {
-            cls += ' st-winner';
-            indicator = '<span class="vi correct" style="opacity:0.5">✓</span>';
-          }
-
-          html += `<div class="${cls}"><span>${team}</span>${indicator}</div>`;
-        });
-      }
-
-      html += '</div>';
-    });
-
+    html += `<div class="round-col"><h3>${ROUND_NAMES[round]}</h3><div class="round-matches">`;
+    rMatches.forEach(m => { html += viewerMatchCardHtml(m, picks); });
     html += '</div></div>';
   });
+  html += '</div></div>';
+
+  // ── Mobile bracket ──
+  html += '<div class="bracket-mobile">';
+  roundsInSub.forEach(round => {
+    const rMatches = matches.filter(m => m.round === round).sort((a,b) => a.match_number - b.match_number);
+    if (!rMatches.length) return;
+    html += `<div class="mobile-round">
+      <div class="mobile-round-header">${ROUND_NAMES[round]}</div>
+      <div class="mobile-matches">`;
+    rMatches.forEach(m => { html += viewerMatchCardHtml(m, picks); });
+    html += '</div></div>';
+  });
+  html += '</div>';
 
   el.innerHTML = html;
 }
