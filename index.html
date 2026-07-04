@@ -665,12 +665,11 @@ function renderPicks() {
   } else {
     const d = ROUND_DEADLINES[submittableRound];
     const dStr = d ? d.toLocaleString('en-US',{weekday:'short',month:'short',day:'numeric',hour:'numeric',minute:'2-digit',timeZoneName:'short'}) : '';
-    html += `<div class="alert alert-info">Picking for: <strong>${ROUND_NAMES[submittableRound]}</strong>.${existing?' You already submitted — update anytime before deadline.':''}${dStr?`<div class="deadline-info">⏰ Deadline: ${dStr}</div>`:''}
+    html += `<div class="alert alert-info">Picking for: <strong>${ROUND_NAMES[submittableRound]}</strong> through the Final.${existing?' You already submitted — update anytime before deadline.':''}${dStr?`<div class="deadline-info">⏰ Deadline: ${dStr}</div>`:''}
     </div>`;
   }
 
-  // Only show this round's matches — each round is its own submission window
-  const roundsToShow = [submittableRound];
+  const roundsToShow = ROUND_ORDER.slice(ROUND_ORDER.indexOf(submittableRound));
   roundsToShow.forEach(round => {
     const rMatches = matches.filter(m => m.round === round).sort((a,b) => a.match_number - b.match_number);
     html += `<div class="round-block" id="rb-${round}"><h3>${ROUND_NAMES[round]}</h3>`;
@@ -747,12 +746,13 @@ async function submitPicks(round) {
   if (!round) { alertEl.innerHTML = `<div class="alert alert-error">No active round.</div>`; return; }
   if (isDeadlinePassed(round)) { alertEl.innerHTML = `<div class="alert alert-error">Submission deadline has passed.</div>`; return; }
 
-  // Only submit this round's matches
-  const rMatches = matches.filter(m => m.round === round);
+  const roundsToSubmit = ROUND_ORDER.slice(ROUND_ORDER.indexOf(round));
   let missing = 0;
-  rMatches.forEach(m => {
-    const [t1,t2] = pickMatchTeams(m.id);
-    if (t1 !== 'TBD' && t2 !== 'TBD' && !currentPicks[m.id]) missing++;
+  roundsToSubmit.forEach(r => {
+    matches.filter(m => m.round === r).forEach(m => {
+      const [t1,t2] = pickMatchTeams(m.id);
+      if (t1 !== 'TBD' && t2 !== 'TBD' && !currentPicks[m.id]) missing++;
+    });
   });
   if (missing > 0) {
     alertEl.innerHTML = `<div class="alert alert-error">Pick a winner for all ${missing} remaining match${missing>1?'es':''}.</div>`;
@@ -760,8 +760,10 @@ async function submitPicks(round) {
   }
 
   const filteredPicks = {};
-  rMatches.forEach(m => {
-    if (currentPicks[m.id]) filteredPicks[m.id] = currentPicks[m.id];
+  roundsToSubmit.forEach(r => {
+    matches.filter(m => m.round === r).forEach(m => {
+      if (currentPicks[m.id]) filteredPicks[m.id] = currentPicks[m.id];
+    });
   });
 
   const { error } = await sb.from('submissions').upsert(
